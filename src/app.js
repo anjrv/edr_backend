@@ -27,13 +27,6 @@ app.use((_req, res, next) => {
 
 app.use(router);
 
-app.use((req, _res, next) => {
-  // For example, a GET request to `/test` will print "GET /test"
-  console.log(`${req.method} ${req.url}`);
-
-  next();
-});
-
 app.use((_req, res, _next) => {
   res.status(404).json({ error: 'Not found' });
 });
