@@ -32,8 +32,24 @@ export async function listDay(req, res) {
 
   results.anomalies = await db
     .collection('anomalies')
-    .find({})
-    .project({ alt: 1, lat: 1, lon: 1, edr: 1, ms: 1, session: 1, _id: 0 })
+    .aggregate([
+      {
+        $group: {
+          _id: '$session',
+          measurements: {
+            $push: {
+              alt: '$alt',
+              lat: '$lat',
+              lon: '$lon',
+              edr: '$edr',
+              ms: '$ms',
+            },
+          },
+        },
+      },
+      { $set: { session: '$_id' } },
+      { $unset: '_id' },
+    ])
     .toArray();
 
   await mongoClient.close();
