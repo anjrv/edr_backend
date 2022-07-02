@@ -4,15 +4,17 @@ import { fileURLToPath } from 'url';
 import express from 'express';
 
 import { readFile } from '../utils/fileSystem.js';
-import { catchErrors } from '../utils/catchErrors.js'
+import { catchErrors } from '../utils/catchErrors.js';
 import { validationCheck } from '../validators/helpers.js';
-import { listDay, listDays } from './days.js';
+import {
+  dayIdValidator,
+  sessionIdValidator,
+} from '../validators/validators.js';
 
-// TODO: Import routes and validators
+import { listDay, listDays } from './days.js';
+import { sampleSession, csvSession } from './sessions.js';
 
 export const router = express.Router();
-
-// TODO: Routing definitions
 
 router.get('/', async (_req, res) => {
   const path = dirname(fileURLToPath(import.meta.url));
@@ -20,14 +22,27 @@ router.get('/', async (_req, res) => {
   res.json(JSON.parse(indexJson));
 });
 
-router.get(
-  '/days',
-  validationCheck,
-  catchErrors(listDays),
-);
+router.get('/days', validationCheck, catchErrors(listDays));
 
 router.get(
   '/days/:dayId',
+  dayIdValidator,
   validationCheck,
-  catchErrors(listDay),
+  catchErrors(listDay)
+);
+
+router.get(
+  '/days/:dayId/sessions/:sessionId/sample',
+  dayIdValidator,
+  sessionIdValidator,
+  validationCheck,
+  catchErrors(sampleSession)
+);
+
+router.get(
+  '/days/:dayId/sessions/:sessionId/csv',
+  dayIdValidator,
+  sessionIdValidator,
+  validationCheck,
+  catchErrors(csvSession)
 );

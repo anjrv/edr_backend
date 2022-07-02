@@ -1,3 +1,30 @@
 {
-  "todo": "todo"
+  "days": {
+    "days": {
+      "href": "/days",
+      "methods": [
+        "GET"
+      ]
+    },
+    "day": {
+      "href": "/days/{day}",
+      "methods": [
+        "GET"
+      ]
+    },
+    "sessions": {
+      "sample": {
+        "href": "/days/{day}/sessions/{session}/sample",
+        "methods": [
+          "GET"
+        ]
+      },
+      "csv": {
+        "href": "/days/{day}/sessions/{session}/csv",
+        "methods": [
+          "GET"
+        ]
+      }
+    }
+  }
 }

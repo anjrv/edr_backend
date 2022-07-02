@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 import { MongoClient } from 'mongodb';
 
-import { logger } from '../utils/logger.js';
+import { validateDate } from '../validators/helpers.js'
 
 dotenv.config();
 
@@ -9,15 +9,8 @@ const { DATABASE_URL: db = 'mongodb://127.0.0.1:27017' } = process.env;
 
 const mongoClient = new MongoClient(db);
 
-function validateDate(date) {
-  return isNaN(date) && !isNaN(Date.parse(date));
-}
-
 export async function listDay(req, res) {
   const { dayId: id } = req.params;
-
-  // Malformed, dont start a connection
-  if (!validateDate(id)) return res.status(400).end();
 
   const results = {};
 
@@ -44,6 +37,7 @@ export async function listDay(req, res) {
                 lon: '$lon',
                 edr: '$edr',
                 ms: '$ms',
+                time: '$time'
               },
             },
           },
