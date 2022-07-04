@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 
 import { router } from './api/index.js';
+import { logger } from './utils/logger.js';
 import requireEnv from './utils/requireEnv.js';
 
 dotenv.config();
@@ -32,8 +33,8 @@ app.use((_req, res, _next) => {
 });
 
 app.use((err, _req, res, _next) => {
-  // Only using GET currently
   console.error(err);
+  logger.error('Unable to serve request', err);
   return res.status(500).json({ error: 'Internal server error' });
 });
 
