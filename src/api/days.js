@@ -58,7 +58,7 @@ export async function listDays(_req, res) {
 
   try {
     const connection = await mongoClient.connect();
-    const dbs = await connection.db('api').admin().listDatabases();
+    const dbs = await connection.db().admin().listDatabases();
 
     dbs.databases.forEach((db) => {
       if (validateDate(db.name)) days.push(db.name);
