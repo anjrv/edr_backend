@@ -1,34 +1,22 @@
-import dotenv from 'dotenv';
 import * as csv from 'csv';
-import { MongoClient } from 'mongodb';
-
-dotenv.config();
-
-const { DATABASE_URL: db = 'mongodb://127.0.0.1:27017' } = process.env;
-
-const mongoClient = new MongoClient(db);
 
 export async function sampleSession(req, res) {
   const { dayId, sessionId } = req.params;
 
   let results = [];
 
-  try {
-    const connection = await mongoClient.connect();
-    const collection = connection.db(dayId).collection(sessionId);
+  const connection = req.app.locals.db;
+  const collection = connection.db(dayId).collection(sessionId);
 
-    const count = await collection.count({});
-    results = await collection
-      .aggregate([
-        { $sample: { size: Math.max(Math.floor(count * 0.0001), 1) } },
-        {
-          $project: { _id: 0, lat: 1, lon: 1, alt: 1, ms: 1, time: 1, edr: 1 },
-        },
-      ])
-      .toArray();
-  } finally {
-    await mongoClient.close();
-  }
+  const count = await collection.count({});
+  results = await collection
+    .aggregate([
+      { $sample: { size: Math.max(Math.floor(count * 0.0001), 1) } },
+      {
+        $project: { _id: 0, lat: 1, lon: 1, alt: 1, ms: 1, time: 1, edr: 1 },
+      },
+    ])
+    .toArray();
 
   return res.json(results);
 }
@@ -56,7 +44,7 @@ export async function csvSession(req, res) {
   const { dayId, sessionId } = req.params;
 
   try {
-    const connection = await mongoClient.connect();
+    const connection = req.app.locals.db;
     const collection = connection.db(dayId).collection(sessionId);
     const cursor = collection.find({});
 
