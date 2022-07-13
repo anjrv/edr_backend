@@ -43,29 +43,20 @@ function transformer(line) {
 export async function csvSession(req, res) {
   const { dayId, sessionId } = req.params;
 
-  try {
-    const connection = req.app.locals.db;
-    const collection = connection.db(dayId).collection(sessionId);
-    const cursor = collection.find({});
+  const connection = req.app.locals.db;
+  const collection = connection.db(dayId).collection(sessionId);
+  const cursor = collection.find({});
 
-    res.setHeader(
-      'Content-disposition',
-      `attachment; filename=${sessionId + '.csv'}`
-    );
-    res.writeHead(200, { 'Content-Type': 'text/csv' });
-    res.flushHeaders();
+  res.setHeader(
+    'Content-disposition',
+    `attachment; filename=${sessionId + '.csv'}`
+  );
+  res.writeHead(200, { 'Content-Type': 'text/csv' });
+  res.flushHeaders();
 
-    cursor
-      .stream()
-      .pipe(csv.transform(transformer))
-      .pipe(csv.stringify({ header: true }))
-      .pipe(res)
-      .once('end', function () {
-        mongoClient.close();
-      });
-  } catch (err) {
-    // Ensure client quits even if pipe breaks
-    await mongoClient.close();
-    throw err;
-  }
+  cursor
+    .stream()
+    .pipe(csv.transform(transformer))
+    .pipe(csv.stringify({ header: true }))
+    .pipe(res);
 }
