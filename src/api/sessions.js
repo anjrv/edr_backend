@@ -28,6 +28,8 @@ function transformer(line) {
     altitude: line.alt,
     latitude: line.lat,
     longitude: line.lon,
+    wind_speed: line.windSpeed,
+    wind_direction: line.windDirection,
     speed_ms_assumed: line.ms,
     speed_ms_measured: line.ms0,
     z: line.z,

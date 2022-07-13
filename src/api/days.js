@@ -28,6 +28,8 @@ export async function listDay(req, res) {
               edr: '$edr',
               ms: '$ms',
               time: '$time',
+              windSpeed: '$windSpeed',
+              windDirection: '$windDirection',
             },
           },
         },
