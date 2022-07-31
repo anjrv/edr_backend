@@ -13,7 +13,7 @@ export async function sampleSession(req, res) {
     .aggregate([
       { $sample: { size: Math.max(Math.floor(count * 0.0001), 1) } },
       {
-        $project: { _id: 0, lat: 1, lon: 1, alt: 1, ms: 1, time: 1, edr: 1 },
+        $project: { _id: 0, lat: 1, lon: 1, alt: 1, ms: 1, time: 1, rms: 1, edr_rms: 1 },
       },
     ])
     .toArray();
@@ -28,14 +28,19 @@ function transformer(line) {
     altitude: line.alt,
     latitude: line.lat,
     longitude: line.lon,
-    wind_speed: line.windSpeed,
-    wind_direction: line.windDirection,
+    wind_avg: line.windAvg || '',
+    wind_max: line.windMax || '',
+    wind_direction: line.windDir || '',
+    wind_method: line.windMethod || '',
+    wind_source: line.windSource || '',
     speed_ms_assumed: line.ms,
     speed_ms_measured: line.ms0,
     z: line.z,
     fz: line.fz,
     std: line.std,
+    rms: line.rms,
     edr: line.edr,
+    edr_rms: line.edr_rms,
     manufacturer: line.manufacturer,
     model: line.model,
     version: line.version,
