@@ -9,7 +9,6 @@ import requireEnv from './utils/requireEnv.js';
 dotenv.config();
 requireEnv(['DATABASE_URL']);
 
-// Default port is 3000, alternatives should be provided in .env
 const { PORT: port = 3456, DATABASE_URL: dbUrl = 'mongodb://127.0.0.1:27017' } =
   process.env;
 
@@ -40,14 +39,15 @@ app.use((err, _req, res, _next) => {
   return res.status(500).json({ error: 'Internal server error' });
 });
 
-MongoClient.connect(dbUrl, (err, db) => {
-  if (err) {
-    logger.error(`Failed to connect to the database. ${err.stack}`);
-  }
-
-  app.locals.db = db;
-  app.listen(port, () => {
-    console.info(`Server running at http://localhost:${port}/`);
-    logger.info(`Server running at http://localhost:${port}/`);
-  });
+app.listen(port, () => {
+  console.info(`Server running at http://localhost:${port}/`);
+  logger.info(`Server running at http://localhost:${port}/`);
 });
+
+// MongoClient.connect(dbUrl, (err, db) => {
+//   if (err) {
+//     logger.error(`Failed to connect to the database. ${err.stack}`);
+//   }
+//
+//   app.locals.db = db;
+// });

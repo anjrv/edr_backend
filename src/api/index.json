@@ -1,4 +1,12 @@
 {
+  "app": {
+    "app": {
+      "href": "/app",
+      "methods": [
+        "GET"
+      ]
+    }
+  },
   "days": {
     "days": {
       "href": "/days",

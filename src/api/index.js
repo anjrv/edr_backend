@@ -11,6 +11,7 @@ import {
   sessionIdValidator,
 } from '../validators/validators.js';
 
+import { sendApk } from './apk.js';
 import { listDay, listDays } from './days.js';
 import { sampleSession, csvSession } from './sessions.js';
 
@@ -21,6 +22,8 @@ router.get('/', async (_req, res) => {
   const indexJson = await readFile(join(path, './index.json'));
   res.json(JSON.parse(indexJson));
 });
+
+router.get('/app', sendApk);
 
 router.get('/days', validationCheck, catchErrors(listDays));
 
