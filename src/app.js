@@ -39,15 +39,15 @@ app.use((err, _req, res, _next) => {
   return res.status(500).json({ error: 'Internal server error' });
 });
 
-app.listen(port, () => {
-  console.info(`Server running at http://localhost:${port}/`);
-  logger.info(`Server running at http://localhost:${port}/`);
-});
-
-// MongoClient.connect(dbUrl, (err, db) => {
-//   if (err) {
-//     logger.error(`Failed to connect to the database. ${err.stack}`);
-//   }
-//
-//   app.locals.db = db;
+// app.listen(port, () => {
+//   console.info(`Server running at http://localhost:${port}/`);
+//   logger.info(`Server running at http://localhost:${port}/`);
 // });
+
+MongoClient.connect(dbUrl, (err, db) => {
+  if (err) {
+    logger.error(`Failed to connect to the database. ${err.stack}`);
+  }
+
+  app.locals.db = db;
+});
