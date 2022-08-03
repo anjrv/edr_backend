@@ -15,7 +15,12 @@ const { PORT: port = 3456, DATABASE_URL: dbUrl = 'mongodb://127.0.0.1:27017' } =
 
 const app = express();
 
-app.use(cors());
+const corsOptions = {
+  origin: '*',
+  optionSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
 app.use(router);
 
 app.use((_req, res, _next) => {
