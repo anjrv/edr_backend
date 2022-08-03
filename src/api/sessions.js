@@ -18,10 +18,7 @@ export async function sampleSession(req, res) {
           lat: 1,
           lon: 1,
           alt: 1,
-          ms: 1,
           time: 1,
-          rms: 1,
-          edr_rms: 1,
         },
       },
     ])
