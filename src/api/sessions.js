@@ -46,7 +46,7 @@ function transformer(line) {
     std: line.std,
     rms: line.rms,
     edr: line.edr,
-    edr_rms: line.edr_rms,
+    edr_rms: line.edrRms,
     manufacturer: line.manufacturer,
     model: line.model,
     version: line.version,

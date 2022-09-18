@@ -27,7 +27,7 @@ export async function listDay(req, res) {
               lon: '$lon',
               rms: '$rms',
               edr: '$edr', // This can be dropped later but legacy measurement sets still used this
-              edr_rms: '$edr_rms',
+              edrRms: '$edrRms',
               ms: '$ms',
               time: '$time',
               windAvg: '$windAvg',
