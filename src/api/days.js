@@ -22,6 +22,7 @@ export async function listDay(req, res) {
           _id: '$session',
           measurements: {
             $push: {
+              session: '$session',
               alt: '$alt',
               lat: '$lat',
               lon: '$lon',
